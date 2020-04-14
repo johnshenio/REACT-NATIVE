@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
 		alignContent: 'center'
 	},
 	outerModal: {
-		flex: 1,
 		justifyContent: 'center',
 		alignContent: 'center'
 	},
