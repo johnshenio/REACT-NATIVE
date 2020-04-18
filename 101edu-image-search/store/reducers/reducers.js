@@ -1,19 +1,22 @@
 import { 
-	SET_IMAGES, 
-	HANDLE_INPUT,  
-	PASS_IMAGE_DATA,
-	FETCH_IMAGES_BEGIN,
-	FETCH_IMAGES_SUCCESS,
-	FETCH_IMAGES_FAILURE, 
-	FETCH_MORE_SUCCESS} from '../actions/actions';
+		HANDLE_INPUT,  
+		PASS_IMAGE_DATA,
+		FETCH_IMAGES_BEGIN,
+		FETCH_IMAGES_SUCCESS,
+		FETCH_IMAGES_FAILURE, 
+	} from '../actions/actions';
 
 
 const initialState = {
 	imgSearchData: [],
 	imgData: {},
 	searchTerm: '',
+	pgNo: 1,
 	loading: false,
-	error: null
+	error: null,
+	orientation: '',
+	heightLayout: '',
+	widthLayout: '',
 };
 
 const actionsReducer = (state = initialState, action) => {
@@ -26,13 +29,17 @@ const actionsReducer = (state = initialState, action) => {
 			return {...state, imgData: action.imageData};
 
 		case FETCH_IMAGES_BEGIN:
-			return {...state, loading: true, error: null};
+			return {...state, pgNo: action.pgNo, loading: true, error: null};
 
 		case FETCH_IMAGES_SUCCESS:
-			return {...state, loading: false, imgSearchData: action.images};
+			if(state.pgNo === 1){
+				return {...state, loading: false, imgSearchData: action.images};
+			} else {
+				let imagesArray = action.images;
+				let newImagesArray = [...state.imgSearchData, ...imagesArray];
 
-		case FETCH_MORE_SUCCESS:
-			return {...state, loading: false, imgSearchData: [...imgSearchData, action.moreImages]}
+				return {...state, loading: false, imgSearchData: newImagesArray};
+			};
 		
 		case FETCH_IMAGES_FAILURE:
 			return {...state, loading: false, error: action.payload.error, items: []}

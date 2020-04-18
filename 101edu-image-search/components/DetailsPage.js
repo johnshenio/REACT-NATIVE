@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Image, Text, Modal, StyleSheet, TouchableHighlight, Button } from 'react-native';
+import { View, Image, StyleSheet, TouchableHighlight } from 'react-native';
 import {  useSelector } from 'react-redux';
+
+import DetailsModal from './DetailsModal';
 
 const DetailsPage = () => {
 	const [visible, setVisible] = useState(false);
@@ -9,28 +11,14 @@ const DetailsPage = () => {
 
 	return (
 		<View style={styles.container}>
-			<TouchableHighlight 
-				onPress={() => setVisible(true)}>
-					<Image style={styles.image} source={{uri: imgData.previewURL.toString()}}/>
+			<TouchableHighlight onPress={() => setVisible(true)}>
+				<Image 
+					resizeMode={'contain'} 
+					style={styles.image} 
+					source={{uri: imgData.largeImageURL.toString()}}
+				/>
 			</TouchableHighlight>
-			<Modal
-				animationType="slide"
-				transparent={true}
-				visible={visible}
-				onRequestClose={() => {
-					Alert.alert("has been closed")
-				}}
-			>
-				<TouchableHighlight onPress={() => setVisible(false)}>
-					<View styles={styles.outerModal}>
-						<View style={styles.innerModal}>
-							<Text>Uploaded by: {imgData.user}</Text>
-							<Text>Resolution: {imgData.imageWidth} x {imgData.imageHeight}</Text>
-							<Text>Tags: {imgData.tags}</Text>
-						</View>
-					</View>
-				</TouchableHighlight>
-			</Modal>
+			<DetailsModal visible={visible} imgData={imgData} setVisible={() => setVisible(false)}/>
 		</View>
 	);
 }
@@ -38,27 +26,14 @@ const DetailsPage = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingTop:100
+		alignContent: "center",
+		justifyContent: 'center'
 	},
 	image: {
-		width: '80%',
-		height: '80%',
-		justifyContent: 'center',
-		alignContent: 'center'
+		padding: 1,
+		width: '100%',
+		height: '100%',
 	},
-	outerModal: {
-		justifyContent: 'center',
-		alignContent: 'center'
-	},
-	innerModal: {
-		flex: 1,
-		justifyContent: 'center',
-		alignContent: 'center',
-	}
-})
+});
 
 export default DetailsPage;
-
-
-
-// props.imgData.imageURL.toString()

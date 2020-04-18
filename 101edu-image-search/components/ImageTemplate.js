@@ -4,6 +4,11 @@ import { useDispatch } from 'react-redux';
 
 import { passImageData } from '../store/actions/actions';
 
+const height = Dimensions.get("window").height;
+
+const imgHeight = height * .25;
+const imgWidth = imgHeight;
+
 const ImageTemplate = props => {
 	const dispatch = useDispatch();
 
@@ -25,12 +30,13 @@ const ImageTemplate = props => {
 
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: 50,
 	},
 	image: {
-		width: 150,
-		height: 150,
-		marginLeft: 10
+		height: imgHeight,
+		width: imgWidth,
+		margin: 1,
+		// justifyContent: 'center',
+		// alignContent: 'center'
 	}
 });
 
